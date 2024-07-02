@@ -28,7 +28,60 @@ describe('template spec', () => {
     cy.get('.todo-list li')
       .should('have.length', 0);
   });
+  it('Editar a tarefa', () => {
+    cy.visit('http://127.0.0.1:7001');
 
+    cy.get('.new-todo')
+      .type('1{enter}');
+      
+    cy.get('.todo-list li')
+    .dblclick()
+    
+    .type('test{enter}')
+    .should('have.text', '1test');
+   
+  });
+  it('Confere se uma tarefa foi adicionada as completas', () => {
+    cy.visit('http://127.0.0.1:7001'); 
+
+    cy.get('.new-todo')
+      .type('Prova de ES{enter}')
+      
+
+    cy.get('.todo-list li .toggle')
+      .first()
+      .click();
+
+    cy.contains('Completed').click();
+    cy.get('.todo-list li')
+      .should('have.length', 1)
+      .first()
+      .should('have.text', 'Prova de ES');
+
+    
+
+    cy.contains('All').click();
+    cy.get('.todo-list li')
+      .should('have.length', 1);
+  });
+  it('Limpa as completas', () => {
+    cy.visit('http://127.0.0.1:7001'); 
+
+    cy.get('.new-todo')
+      .type('Prova de ES{enter}')
+      
+
+    cy.get('.todo-list li .toggle')
+      .first()
+      .click();
+
+    cy.contains('Clear completed').click();
+    cy.get('.todo-list li')
+      .should('have.length', 0)
+      
+
+
+  });
   it('Filtra tarefas completas e ativas', () => {
     cy.visit('http://127.0.0.1:7001'); 
 
